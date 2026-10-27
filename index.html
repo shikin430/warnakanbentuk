@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mewarnakan Bentuk Mengikut Bilangan Bucu</title>
+<style>
+:root{--blue:#2688e8;--red:#ef4444;--green:#22a447;--yellow:#facc15;--ink:#253247;--paper:#fffdf7}
+*{box-sizing:border-box}
+body{margin:0;background:#edf4fb;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+main{max-width:1100px;margin:auto;padding:14px}
+.sheet{background:var(--paper);border:3px solid #24364b;border-radius:16px;padding:clamp(12px,3vw,28px);box-shadow:0 5px 18px #16324f18}
+.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+h1{margin:0;font-size:clamp(1.7rem,5vw,3.1rem);letter-spacing:.02em;color:#172b43}
+.name{display:flex;align-items:center;gap:8px;font-size:1rem;flex-wrap:wrap}
+.name input{border:0;border-bottom:2px solid #46566b;background:transparent;padding:8px;min-width:150px;font-size:1rem;outline-offset:3px}
+.subtitle{margin:8px 0 16px;font-size:clamp(.95rem,2.5vw,1.15rem)}
+.legend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0 18px}
+.key{border:2px solid #d7e0ea;border-radius:12px;padding:9px 6px;display:flex;align-items:center;justify-content:center;gap:7px;font-weight:700;background:white;text-align:center;flex-wrap:wrap}
+.swatch{width:22px;height:22px;border-radius:50%;border:1px solid #0002;flex-shrink:0}
+.key small{display:block;font-weight:400;font-size:.78rem}
+.instructions{background:#eef6ff;border-radius:10px;padding:10px 12px;margin-bottom:12px;line-height:1.45}
+.canvas{width:100%;display:block;touch-action:manipulation}
+.shape{fill:#fff;stroke:#17212d;stroke-width:3.5;stroke-linejoin:round;cursor:pointer;transition:fill .15s,stroke-width .15s}
+.shape:focus{outline:none;stroke:#111;stroke-width:6}
+.shape:hover{stroke-width:5}
+.shape.correct{stroke:#198754;stroke-width:4}
+.shape.wrong{stroke:#dc2626;stroke-width:4;stroke-dasharray:7 4}
+.controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+button{border:0;border-radius:12px;padding:12px 17px;font-size:1rem;font-weight:700;cursor:pointer;min-height:46px}
+.primary{background:#1d65c1;color:#fff}.secondary{background:#e4ebf3;color:#20334a}.success{background:#16834b;color:#fff}
+button:focus-visible,input:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+#feedback{margin:12px 0 0;text-align:center;font-weight:700;font-size:1.08rem;min-height:1.5em}
+.footer{text-align:center;color:#526174;font-size:.85rem;margin-top:10px}
+@media(max-width:560px){main{padding:7px}.sheet{padding:10px;border-radius:10px}.legend{grid-template-columns:repeat(2,minmax(0,1fr))}.key{font-size:.92rem}.name{width:100%}.name input{flex:1;min-width:80px}.controls button{flex:1 1 42%}}
+@media print{body{background:white}.sheet{box-shadow:none;border:2px solid #222;border-radius:0;padding:10mm}main{max-width:none;padding:0}.controls,.instructions,.footer{display:none}.shape{fill:white!important;stroke:#111!important;stroke-dasharray:none!important}.shape.correct,.shape.wrong{stroke-width:3}.legend{margin:8px 0}.key{padding:5px}h1{font-size:28pt}}
+</style>
+</head>
+<body>
+<main>
+<section class="sheet">
+<div class="top">
+<h1>MEWARNAKAN BENTUK</h1>
+<label class="name">Nama: <input id="studentName" type="text" aria-label="Nama murid"></label>
+</div>
+<p class="subtitle">Warnakan setiap bentuk mengikut bilangan bucu.</p>
+<div class="legend" aria-label="Panduan warna">
+<div class="key"><span class="swatch" style="background:var(--blue)"></span><span>3 bucu<small>BIRU</small></span></div>
+<div class="key"><span class="swatch" style="background:var(--red)"></span><span>4 bucu<small>MERAH</small></span></div>
+<div class="key"><span class="swatch" style="background:var(--green)"></span><span>5 bucu<small>HIJAU</small></span></div>
+<div class="key"><span class="swatch" style="background:var(--yellow)"></span><span>6 bucu<small>KUNING</small></span></div>
+</div>
+<div class="instructions"><b>Arahan:</b> Kira bilangan bucu bagi setiap bentuk. Tekan bentuk untuk memilih warna mengikut panduan. Tekan lagi untuk menukar warna jika perlu. Setelah selesai, tekan <b>Semak Jawapan</b>.</div>
+<svg class="canvas" viewBox="0 0 900 860" role="group" aria-label="Lembaran kerja bentuk 2D">
+<!-- Bentuk disusun dalam grid dengan ruang yang cukup supaya tidak bertindih. -->
+<!-- Baris 1 -->
+<rect class="shape" data-sides="4" x="35" y="35" width="145" height="105"/>
+<polygon class="shape" data-sides="3" points="250,140 310,35 370,140"/>
+<polygon class="shape" data-sides="3" points="455,140 520,35 585,140"/>
+<rect class="shape" data-sides="4" x="675" y="50" width="175" height="90"/>
+<!-- Baris 2 -->
+<rect class="shape" data-sides="4" x="35" y="195" width="105" height="125"/>
+<polygon class="shape" data-sides="5" points="270,195 330,235 308,305 232,305 210,235"/>
+<polygon class="shape" data-sides="6" points="470,205 530,205 565,255 530,305 470,305 435,255"/>
+<polygon class="shape" data-sides="3" points="700,310 760,195 830,310"/>
+<!-- Baris 3 -->
+<polygon class="shape" data-sides="6" points="70,375 130,375 165,425 130,475 70,475 35,425"/>
+<polygon class="shape" data-sides="4" points="230,385 365,385 390,470 205,470"/>
+<polygon class="shape" data-sides="3" points="485,475 550,365 615,475"/>
+<rect class="shape" data-sides="4" x="690" y="390" width="160" height="80"/>
+<!-- Baris 4 -->
+<polygon class="shape" data-sides="3" points="35,635 105,520 175,635"/>
+<polygon class="shape" data-sides="6" points="265,535 325,535 360,585 325,635 265,635 230,585"/>
+<polygon class="shape" data-sides="4" points="440,550 600,550 580,635 420,635"/>
+<polygon class="shape" data-sides="5" points="745,525 815,560 805,625 735,640 695,585"/>
+<!-- Baris 5 -->
+<polygon class="shape" data-sides="5" points="65,700 125,680 175,720 165,790 95,815 40,765"/>
+<rect class="shape" data-sides="4" x="245" y="700" width="125" height="115"/>
+<polygon class="shape" data-sides="3" points="465,810 535,700 605,810"/>
+<rect class="shape" data-sides="4" x="690" y="720" width="165" height="90"/>
+</svg>
+<div class="controls">
+<button class="primary" id="checkBtn">Semak Jawapan</button>
+<button class="secondary" id="resetBtn">Padam Warna</button>
+<button class="success" id="pdfBtn">Simpan sebagai PDF</button>
+<button class="secondary" id="printBtn">Cetak</button>
+</div>
+<div id="feedback" role="status" aria-live="polite"></div>
+<div class="footer">Hebat! Kira bucu dengan teliti dan cuba lagi jika perlu.</div>
+</section>
+</main>
+<script>
+const palette={3:'#2688e8',4:'#ef4444',5:'#22a447',6:'#facc15'};
+const names={3:'biru',4:'merah',5:'hijau',6:'kuning'};
+const shapes=[...document.querySelectorAll('.shape')];
+function paint(shape,sides){shape.style.fill=palette[sides];shape.dataset.painted=String(sides);shape.classList.remove('correct','wrong');}
+shapes.forEach((shape)=>{
+  shape.setAttribute('tabindex','0');
+  shape.setAttribute('role','button');
+  shape.setAttribute('aria-label',`${shape.dataset.sides} bucu. Tekan untuk mewarnakan.`);
+  shape.addEventListener('click',()=>{
+    const choices=[3,4,5,6];
+    const current=Number(shape.dataset.painted);
+    const next=choices[(choices.indexOf(current)+1)%choices.length];
+    shape.style.fill=palette[next];
+    shape.dataset.painted=String(next);
+    shape.classList.remove('correct','wrong');
+    document.getElementById('feedback').textContent=`Warna dipilih: ${names[next]}. Kira bucu dan pilih warna yang betul.`;
+  });
+  shape.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();shape.click();}});
+});
+document.getElementById('checkBtn').addEventListener('click',()=>{
+  let correct=0;
+  shapes.forEach(s=>{
+    const ok=s.dataset.painted===s.dataset.sides;
+    if(ok){correct++;s.classList.add('correct');s.classList.remove('wrong');}
+    else{s.classList.add('wrong');s.classList.remove('correct');}
+  });
+  const f=document.getElementById('feedback');
+  if(correct===shapes.length){f.textContent=`Tahniah${document.getElementById('studentName').value.trim()?' , '+document.getElementById('studentName').value.trim():''}! Semua jawapan betul. Syabas! 👏`;}
+  else{f.textContent=`Anda mendapat ${correct} daripada ${shapes.length}. Bentuk bertanda merah perlu disemak. Cuba lagi, anda pasti boleh!`;}
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  shapes.forEach(s=>{s.style.fill='#fff';delete s.dataset.painted;s.classList.remove('correct','wrong');});
+  document.getElementById('feedback').textContent='Warna telah dipadam. Mari cuba sekali lagi!';
+});
+document.getElementById('pdfBtn').addEventListener('click',()=>window.print());
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+</script>
+</body>
+</html>
